@@ -1,0 +1,25 @@
+body{
+	text-align: center;
+}
+
+#headerTitle{
+}
+
+#characterSelect{
+	clear: both;
+	display: inline-flex;
+	margin: 0 auto;
+}
+
+#player{
+	background-color: lightgreen;
+}
+
+#enemies{
+	background-color: red;
+}
+
+.enemyCharacters{
+	display: inline-block;
+	margin: 10px;
+}
