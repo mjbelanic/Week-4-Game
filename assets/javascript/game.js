@@ -1,8 +1,3 @@
-//Need to make:
-//Character objects (image needed)
-// reset game
-
-
 $(document).ready(function() {
 
 	//Character objects
@@ -13,7 +8,6 @@ $(document).ready(function() {
 		this.attack = ap;
 		this.counter = counter;
 		this.image = img;
-
 	}
 
 	var Luke = new Character( 1 , "Luke Skywalker", 125, 10, 5, "assets/images/Luke.jpg");
@@ -26,7 +20,7 @@ $(document).ready(function() {
 	var baseAttack;
 	var playerHP;
 	var enemyHP;
-	$("#messages").attr("style", "color: Blue");
+	$("#messages").attr("style", "color: black");
 
 	function CharacterSelectMaker(array){
 	    for (var i = 0; i < array.length; i++) {
@@ -50,7 +44,9 @@ $(document).ready(function() {
 	        characterDiv.append(characterHealth);
 	    }
 	    $("#menuDiv").attr("style", "display: inline");
-	    $("#attackBtn").attr("style" , "display: inline-block");
+	    $("#enemies").attr("style", "display:none");
+	    $("#fightText").attr("style" , "display: none");
+	    $("#attackBtn").attr("style" , "display: none");
 	    $("#restartBtn").attr("style" , "display: none");
 	}
 
@@ -90,6 +86,8 @@ $(document).ready(function() {
 				enemyHP = array[i].health;
 			}
 		}
+		$("#fightText").attr("style" , "display: block");
+		$("#attackBtn").attr("style" , "display: inline-block");
 
 	}
 
@@ -119,16 +117,19 @@ $(document).ready(function() {
 			//empty enemy div
 			$("#defPos").empty();
 			$("#enemies").attr("style" ,"display: block");
-			
+			$("#attackBtn").attr("style" , "display: none");
 			if( !$.trim( $('#enemySelect').html() ).length){
 				$("#player").empty();
 				$("#defPos").empty();
 				$("#enemySelect").empty();
+				$("#fightText").attr("style" , "display: none");
 				$("#attackBtn").attr("style" , "display: none");
+				$("#enemies").attr("style" , "display: none");
 				$("#messages").attr("style", "color: green");
 				$("#messages").html("Congrats on your victory!");
 				$("#restartBtn").attr("style" , "display:inline-block");
 			}else{
+				$("#fightText").attr("style" , "display: none");
 				$("#messages").html("Select new opponent");
 			}
 		}
@@ -139,6 +140,8 @@ $(document).ready(function() {
 			$("#player").empty();
 			$("#defPos").empty();
 			$("#enemySelect").empty();
+			$("#enemies").attr("style" , "display: none");
+			$("#fightText").attr("style" , "display: none");
 			$("#attackBtn").attr("style" , "display: none");
 			$("#messages").attr("style" , "color: red");
 			$("#messages").html("You have been defeated. Try again");
@@ -175,13 +178,7 @@ $(document).ready(function() {
 	});
 
 	$("#attackBtn").click(function(){
-		if( !$.trim( $('#defPos').html() ).length){
-			$("#messages").html("No enemy selected");
-		}else{
-			//Since the class is added dynamically, you need to use event delegation to register the event handler
-			$("#messages").html("");
 			Attack(characterArray, $(".character").attr("id") , $(".currentEnemy").attr("id"));
-		}
 	});
 
 });

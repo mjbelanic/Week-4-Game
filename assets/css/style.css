@@ -53,8 +53,8 @@ img{
 }
 
 #enemySelect .enemyCharacters:hover{
-	background-color: black;
-	color: yellow;
+	background-color: red;
+	color: black;
 }
 
 
@@ -67,17 +67,10 @@ img{
 }
 
 #player{
-	background-color: lightgreen;
+	background-color: blue;
+	color: white;
 	margin: 0 auto;
 	width: 25%;
-}
-
-#character{
-	display: inline-block;
-	align-content: center;
-	border-color: green;
-	background-color: white;
-	margin: 0 auto;
 }
 
 #defender{
