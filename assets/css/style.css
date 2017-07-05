@@ -1,25 +1,88 @@
+@font-face {
+	font-family: 'StarJedi';
+	src: local(Starjedi), url('./fonts/SFDistantGalaxy.ttf') format('truetype');
+	font-weight: normal;
+	font-size: normal;
+}
+
+html{
+	background: url("../images/Walker_Assault.png") no-repeat center center fixed;
+	background-size: cover; /*(../images/stardust/stardust.png);*/
+}
+
 body{
 	text-align: center;
+	font-family: "StarJedi";
 }
 
-#headerTitle{
+h1{
+	font-size: 36px;
 }
 
-#characterSelect{
-	clear: both;
-	display: inline-flex;
-	margin: 0 auto;
+h2{
+	font-size: 24px;
+}
+
+p{
+	font-size: 20px;
+}
+
+img{
+	width: 250px;
+	height: 200px;
+}
+
+#characterSelect .character{
+	display: inline-block;
+	margin: 0px auto;
+	background-color: white;
+	border: 1px solid black;
+	width: 20%;
+}
+
+#characterSelect .character:hover{
+	background-color: blue;
+	color: white;
+}
+
+#enemySelect .enemyCharacters{
+	margin: 0px 10px;
+	background-color: white;
+	display: inline-block;
+	width: 25%;
+}
+
+#enemySelect .enemyCharacters:hover{
+	background-color: black;
+	color: yellow;
+}
+
+
+#characterSelect div:first-child{
+	margin-left: 0px;
+}
+
+#characterSelect div:last-child{
+	margin-right: 0px;
 }
 
 #player{
 	background-color: lightgreen;
+	margin: 0 auto;
+	width: 25%;
 }
 
-#enemies{
+#character{
+	display: inline-block;
+	align-content: center;
+	border-color: green;
+	background-color: white;
+	margin: 0 auto;
+}
+
+#defender{
+	margin: 10px auto;
+	width: 25%;
 	background-color: red;
 }
 
-.enemyCharacters{
-	display: inline-block;
-	margin: 10px;
-}

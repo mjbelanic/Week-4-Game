@@ -1,13 +1,5 @@
 //Need to make:
-//Character objects
-// pick enemy
-// attack enemy
-// enemy health decrease
-// enemy counter
-// player health decrease
-// player attack increase
-// enemy dies
-// player dies
+//Character objects (image needed)
 // reset game
 
 
@@ -24,22 +16,24 @@ $(document).ready(function() {
 
 	}
 
-	var Luke = new Character( 1 , "Luke", 100, 5, 4, "https://placeholdit.co//i/200x200?");
-	var ObiWan = new Character(2, "Obi Wan Kenobi" , 120, 7, 5, "https://placeholdit.co//i/200x200?");
-	var Emperor = new Character(3, "Emperor Papaltine", 200, 25, 10, "https://placeholdit.co//i/200x200?");
-	var DarthVader = new Character(4, "Darth Vader", 150, 30, 15, "https://placeholdit.co//i/200x200?");
+	var Luke = new Character( 1 , "Luke Skywalker", 125, 10, 5, "assets/images/Luke.jpg");
+	var ObiWan = new Character(2, "Obi Wan Kenobi" , 140, 9, 7, "assets/images/ObiWan.jpg");
+	var Emperor = new Character(3, "Emperor Palpatine", 180, 3, 18, "assets/images/Palpatine.png");
+	var DarthVader = new Character(4, "Darth Vader", 150, 5, 15, "assets/images/Vader.jpg");
 	var characterArray = [Luke, ObiWan, Emperor, DarthVader]
-
-	//Append character to div
-	// place holder image currently <img src="https://placeholdit.co//i/200x200?">
+	var player;
+	var enemy;
+	var baseAttack;
+	var playerHP;
+	var enemyHP;
+	$("#messages").attr("style", "color: Blue");
 
 	function CharacterSelectMaker(array){
-	     for (var i = 0; i < array.length; i++) {
+	    for (var i = 0; i < array.length; i++) {
 	     	//Make div and give it id
 	        var characterDiv = $("<div>");
-	        characterDiv.addClass("character");
+	        characterDiv.attr("class" , "character");
 	        characterDiv.attr("id" , array[i].id);
-	        characterDiv.attr("style", "border: 1px solid red");
 	        $("#characterSelect").append(characterDiv);
 	        //Make and append name
 	        var characterName = $("<p>")
@@ -51,29 +45,52 @@ $(document).ready(function() {
 	        characterDiv.append(characterImg);
 	        //Make and append health
 	        var characterHealth = $("<p>")
+	        characterHealth.attr("id" , "HP");
 	        characterHealth.html(array[i].health);
 	        characterDiv.append(characterHealth);
 	    }
+	    $("#menuDiv").attr("style", "display: inline");
+	    $("#attackBtn").attr("style" , "display: inline-block");
+	    $("#restartBtn").attr("style" , "display: none");
 	}
 
 	CharacterSelectMaker(characterArray);
 
+
 	// Move player's choice into player div
 	// Move remaining characters into enemy div
-	function ChooseCharacter(charID){
+	function ChooseCharacter(charID, array){
 		var playerCharacter = $("<div>");
+		$("#player").append("<p> Your Character </p>");
+		$("#player")
 		$("#player").append(playerCharacter);
 		playerCharacter.attr("id" , "playerCharacter");
 		$("#" + charID).appendTo(playerCharacter);
 		$(".character:not(#" + charID +")").attr("class" , "enemyCharacters")
 		$(".enemyCharacters").appendTo("#enemySelect")
+		$("#enemies").attr("style", "display:block");
 		$("#menuDiv").attr("style" , "display:none");
+		//Set base attack
+		var characterID = parseInt(charID)
+		for (var i = 0; i < array.length; i++){
+			if(array[i].id === characterID){
+				baseAttack = array[i].attack;
+				playerHP = array[i].health;
+			}
+		}
 	}
 
-	function ChooseEnemy(enemyID){
+	function ChooseEnemy(enemyID, array){
+		$("#defPos").append("<p> Defender </p>");
 		$("#" + enemyID).appendTo("#defPos");
 		$("#" + enemyID).attr("class","currentEnemy");
-		console.log("append should have happened");
+		var enId = parseInt(enemyID)
+		for (var i = 0; i < array.length; i++){
+			if(array[i].id === enId){
+				enemyHP = array[i].health;
+			}
+		}
+
 	}
 
 	function Attack(array, playerId , enemyId){
@@ -81,38 +98,88 @@ $(document).ready(function() {
 		playerId = parseInt(playerId);
 		for (var i = 0; i < array.length; i++){
 			if(array[i].id === playerId){
-				console.log("Player found: " + array[i].name);
+				player = array[i];
 			}
 		}
 		for (var i = 0; i < array.length; i++){
 			if(array[i].id === enemyId){
-				console.log("Enemy found: " + array[i].name);
+				enemy = array[i];
 			}
 		}
+		enemyHP = enemyHP - baseAttack;
+		playerHP = playerHP - enemy.counter;
+		$("#messages").html("You attack the enemy for " + baseAttack + " points of damage. <br/>" + 
+			"The enemy counters and damges you for " + enemy.counter  + " points of damage");
+		baseAttack += player.attack;
+		
+		if(enemyHP > 0){
+			$( "#" + enemyId + " #HP").html(enemyHP);
+		
+		}else{
+			//empty enemy div
+			$("#defPos").empty();
+			$("#enemies").attr("style" ,"display: block");
+			
+			if( !$.trim( $('#enemySelect').html() ).length){
+				$("#player").empty();
+				$("#defPos").empty();
+				$("#enemySelect").empty();
+				$("#attackBtn").attr("style" , "display: none");
+				$("#messages").attr("style", "color: green");
+				$("#messages").html("Congrats on your victory!");
+				$("#restartBtn").attr("style" , "display:inline-block");
+			}else{
+				$("#messages").html("Select new opponent");
+			}
+		}
+
+		if(playerHP > 0){
+			$( "#" + playerId + " #HP").html(playerHP);
+		}else{
+			$("#player").empty();
+			$("#defPos").empty();
+			$("#enemySelect").empty();
+			$("#attackBtn").attr("style" , "display: none");
+			$("#messages").attr("style" , "color: red");
+			$("#messages").html("You have been defeated. Try again");
+			$("#restartBtn").attr("style" , "display:inline-block");
+		}
+		
+
 	}
 
 	//Click a div, get that character
-	$(".character").on("click", function(){
+	$(document).on("click", "div.character" , function(){
 		//ONLY if enemySelect div is empty set up game board / else do nothing
-		if( !$.trim( $('#enemySelect').html() ).length){
-			ChooseCharacter(this.id);
+		if( !$.trim( $('#enemySelect').html() ).length &&  !$.trim( $('#defPos').html() ).length){
+			ChooseCharacter(this.id , characterArray);
 		}
 	});
 
 
 	$(document).on("click", "div.enemyCharacters" ,function(){
 	//ONLY if enemySelect div is empty set up game board / else do nothing
-		console.log("Click works");
 		if( !$.trim( $('#defPos').html() ).length){
-			ChooseEnemy(this.id);
+			ChooseEnemy(this.id, characterArray);
+			$("#enemies").attr("style" , "display: none")
 		}
 	});
 
 
-	$("button").click(function(){
+	$("#restartBtn").click(function(){
+		$("#characterSelect").empty();
+		$("#enemySelect").empty();
+		$("#messages").attr("style", "color: blue");
+		$("#messages").html("");
+		CharacterSelectMaker(characterArray);
+	});
+
+	$("#attackBtn").click(function(){
 		if( !$.trim( $('#defPos').html() ).length){
-			console.log("No enemy selected");
+			$("#messages").html("No enemy selected");
 		}else{
+			//Since the class is added dynamically, you need to use event delegation to register the event handler
+			$("#messages").html("");
 			Attack(characterArray, $(".character").attr("id") , $(".currentEnemy").attr("id"));
 		}
 	});

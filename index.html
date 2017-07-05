@@ -8,13 +8,13 @@
 	<script type="text/javascript" src="assets/javascript/game.js"></script>
 </head>
 <body>
+
 	<header>
 		<h1 id="headerTitle">Star Wars RPG</h1>
 	</header>
 
 	<!--My character div-->
 	<div id="player">
-		<p>Your Character</p>	
 	</div>
 	
 
@@ -39,17 +39,18 @@
 	<div>
 		<section>
 			<p>Fight Section</p>
-			<button>Attack</button>
+			<button id="attackBtn">Attack</button>
+			<button id="restartBtn">Restart</button>
+			<div>
+				<p id="messages"></p>
+			</div>
 		</section>
 	</div>
 	<!--Defender Div-->
 	<div id="defender">
-		<p>Defender</p>
 		<div id="defPos">
 			
 		</div>	
 	</div>
-
-
 </body>
 </html>
