@@ -107,7 +107,7 @@ $(document).ready(function() {
 		enemyHP = enemyHP - baseAttack;
 		playerHP = playerHP - enemy.counter;
 		$("#messages").html("You attack the enemy for " + baseAttack + " points of damage. <br/>" + 
-			"The enemy counters and damges you for " + enemy.counter  + " points of damage");
+			"The enemy counters and damages you for " + enemy.counter  + " points of damage");
 		baseAttack += player.attack;
 		
 		if(enemyHP > 0){
